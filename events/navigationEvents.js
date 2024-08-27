@@ -1,3 +1,4 @@
+import firebase from 'firebase';
 import { showBooks } from '../pages/books';
 import { signOut } from '../utils/auth';
 import { getAuthors, getFavAuthors } from '../api/authorData';
@@ -11,12 +12,12 @@ const navigationEvents = () => {
 
   // TODO: BOOKS ON SALE
   document.querySelector('#sale-books').addEventListener('click', () => {
-    booksOnSale().then(showBooks);
+    booksOnSale(`${firebase.auth().currentUser.uid}`).then(showBooks);
   });
 
   // TODO: ALL BOOKS
   document.querySelector('#all-books').addEventListener('click', () => {
-    getBooks().then(showBooks);
+    getBooks(`${firebase.auth().currentUser.uid}`).then(showBooks);
     // getBooks(user.uid).then(showBooks);
   });
 
@@ -25,11 +26,11 @@ const navigationEvents = () => {
   // 2. Convert the response to an array because that is what the makeAuthors function is expecting
   // 3. If the array is empty because there are no authors, make sure to use the emptyAuthor function
   document.querySelector('#authors').addEventListener('click', () => {
-    getAuthors().then(showAuthors);
+    getAuthors(`${firebase.auth().currentUser.uid}`).then(showAuthors);
   });
 
   document.querySelector('#favAuthors').addEventListener('click', () => {
-    getFavAuthors().then(showAuthors);
+    getFavAuthors(`${firebase.auth().currentUser.uid}`).then(showAuthors);
   });
 
   // STRETCH: SEARCH
