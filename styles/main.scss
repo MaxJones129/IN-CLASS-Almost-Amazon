@@ -96,3 +96,9 @@ body {
     white-space: pre-wrap;
   }
 }
+
+#authorBooks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
