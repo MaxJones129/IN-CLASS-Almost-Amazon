@@ -70,7 +70,7 @@ const domEvents = () => {
     // FIXME: ADD CLICK EVENT FOR EDITING AN AUTHOR
     if (e.target.id.includes('update-author')) {
       const [, firebaseKey] = e.target.id.split('--');
-      getSingleAuthor(firebaseKey).then((AuthorObj) => addAuthorForm(AuthorObj));
+      getSingleAuthor(firebaseKey).then((authorObj) => addAuthorForm(authorObj));
       // getSingleBook(firebaseKey).then(addBookForm); // using the callback method
     }
   });
