@@ -3,21 +3,8 @@ import client from '../utils/client';
 const endpoint = client.databaseURL;
 
 // FIXME:  GET ALL AUTHORS
-const getAuthors = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(Object.values(data))) // will resolve a single object
-    .catch(reject);
-});
-
-// FIXME:  GET FAVORIT AUTHORS
-const getFavAuthors = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
+const getAuthors = () => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -25,9 +12,12 @@ const getFavAuthors = (uid) => new Promise((resolve, reject) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      const favorite = Object.values(data).filter((item) => item.favorite);
-      resolve(favorite);
-    }) // will resolve a single object
+      if (data) {
+        resolve(Object.values(data));
+      } else {
+        resolve([]);
+      }
+    })
     .catch(reject);
 });
 
@@ -71,6 +61,21 @@ const deleteSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+// FIXME:  GET FAVORIT AUTHORS
+const getFavAuthors = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      const favorite = Object.values(data).filter((item) => item.favorite);
+      resolve(favorite);
+    }) // will resolve a single object
+    .catch(reject);
+});
 // FIXME: UPDATE AUTHOR
 const updateAuthor = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/authors/${payload.firebaseKey}.json`, {
@@ -84,6 +89,7 @@ const updateAuthor = (payload) => new Promise((resolve, reject) => {
     .then(resolve)
     .catch(reject);
 });
+
 // TODO: GET A SINGLE AUTHOR'S BOOKS
 const getAuthorBooks = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books.json?orderBy="author_id"&equalTo="${firebaseKey}"`, {

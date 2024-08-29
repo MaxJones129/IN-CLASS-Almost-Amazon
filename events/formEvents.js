@@ -66,7 +66,8 @@ const formEvents = () => {
         first_name: document.querySelector('#first_name').value,
         last_name: document.querySelector('#last_name').value,
         email: document.querySelector('#email').value,
-        firebaseKey,
+        favorite: document.querySelector('#favorite').value,
+        firebaseKey
       };
       updateAuthor(payload).then(() => {
         getAuthors(`${firebase.auth().currentUser.uid}`).then(showAuthors);
